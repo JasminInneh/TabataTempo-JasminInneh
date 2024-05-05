@@ -34,12 +34,12 @@ const Timer = () => {
         </div>
       </div>
       <div className="row justify-content-center">
-        <div className="col-6 col-md-4">
+        <div className="col-6 col-md-4 text-center"> 
           <button className="btn btn-primary btn-block" onClick={toggleTimer}>
             {isActive ? 'Pause' : 'Start'}
           </button>
         </div>
-        <div className="col-6 col-md-4">
+        <div className="col-6 col-md-4 text-center"> 
           <button className="btn btn-secondary btn-block" onClick={resetTimer}>
             Reset
           </button>
