@@ -22,7 +22,7 @@ body {
   justify-content: center;
   margin: 0 auto; /* Center the circle horizontally */
   margin-bottom: 2rem;
-  margin-top: 4rem;
+  margin-top: 2rem;
 }
 
 .countdown-circle h1 {

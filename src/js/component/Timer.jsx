@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import "../../styles/timer.css";
 
 const Timer = () => {
+  const [prepareTime, setPrepareTime] = useState(5);
   const [workTime, setWorkTime] = useState(20);
   const [restTime, setRestTime] = useState(10);
   const [sets, setSets] = useState(1);
-  const [timeLeft, setTimeLeft] = useState(workTime);
+  const [timeLeft, setTimeLeft] = useState(prepareTime);
   const [isActive, setIsActive] = useState(false);
   const [currentSet, setCurrentSet] = useState(1);
   const [isResting, setIsResting] = useState(false);
@@ -18,15 +19,15 @@ const Timer = () => {
       }, 1000);
     } else if (timeLeft === 0 && isActive) {
       if (!isResting) {
-        // Switch to rest time if not currently resting
-        setIsResting(true);
-        setTimeLeft(restTime);
+        // Transition to work time after preparation time
+        setIsResting(true); // Set to resting state to control the next countdown
+        setTimeLeft(workTime); // Start work time countdown
       } else {
-        // Switch to work time if currently resting
+        // Switch to rest time if currently resting
         if (currentSet < sets) {
           setIsResting(false);
           setCurrentSet(currentSet + 1);
-          setTimeLeft(workTime);
+          setTimeLeft(restTime);
         } else {
           // All sets completed, stop the timer
           setIsActive(false);
@@ -34,7 +35,8 @@ const Timer = () => {
       }
     }
     return () => clearInterval(interval);
-  }, [isActive, timeLeft, currentSet, isResting, sets, workTime, restTime]);
+  }, [isActive, timeLeft, currentSet, isResting, sets, workTime, restTime, prepareTime]);
+  
 
   const toggleTimer = () => {
     setIsActive(!isActive);
@@ -44,7 +46,7 @@ const Timer = () => {
     setIsActive(false);
     setCurrentSet(1);
     setIsResting(false);
-    setTimeLeft(workTime);
+    setTimeLeft(prepareTime);
   };
 
   return (
@@ -58,43 +60,53 @@ const Timer = () => {
       </div>
       <div className="row justify-content-center">
         <div className="col-12 col-md-8">
-          <div className="row mb-3">
-            <div className="col text-center">
-              <div className="input-container">
-                <input
-                  type="number"
-                  className="form-control input-small"
-                  placeholder="Work Time (seconds)"
-                  value={workTime}
-                  onChange={(e) => setWorkTime(parseInt(e.target.value))}
-                />
-              </div>
-              <span>Work</span>
+          <div className="col text-center align-items-center mb-3">
+            <div className="input-container">
+              <input
+                type="number"
+                className="form-control input-small"
+                placeholder="Prepare Time (seconds)"
+                value={prepareTime}
+                onChange={(e) => setPrepareTime(parseInt(e.target.value))}
+              />
             </div>
-            <div className="col text-center">
-              <div className="input-container">
-                <input
-                  type="number"
-                  className="form-control input-small"
-                  placeholder="Rest Time (seconds)"
-                  value={restTime}
-                  onChange={(e) => setRestTime(parseInt(e.target.value))}
-                />
-              </div>
-              <span>Rest</span>
+            <span>Prepare</span>
+          </div>
+          <div className="col text-center align-items-center mb-3">
+            <div className="input-container">
+              <input
+                type="number"
+                className="form-control input-small"
+                placeholder="Work Time (seconds)"
+                value={workTime}
+                onChange={(e) => setWorkTime(parseInt(e.target.value))}
+              />
             </div>
-            <div className="col text-center">
-              <div className="input-container">
-                <input
-                  type="number"
-                  className="form-control input-small"
-                  placeholder="Sets"
-                  value={sets}
-                  onChange={(e) => setSets(parseInt(e.target.value))}
-                />
-              </div>
-              <span>Sets</span>
+            <span>Work</span>
+          </div>
+          <div className="col text-center align-items-center mb-3">
+            <div className="input-container">
+              <input
+                type="number"
+                className="form-control input-small"
+                placeholder="Rest Time (seconds)"
+                value={restTime}
+                onChange={(e) => setRestTime(parseInt(e.target.value))}
+              />
             </div>
+            <span>Rest</span>
+          </div>
+          <div className="col text-center align-items-center mb-3">
+            <div className="input-container">
+              <input
+                type="number"
+                className="form-control input-small"
+                placeholder="Sets"
+                value={sets}
+                onChange={(e) => setSets(parseInt(e.target.value))}
+              />
+            </div>
+            <span>Sets</span>
           </div>
           <div className="row">
             <div className="col-6 col-md-4 d-flex justify-content-center mt-2">
