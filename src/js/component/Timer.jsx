@@ -29,13 +29,25 @@ const Timer = () => {
           setCurrentSet(currentSet + 1);
           setTimeLeft(restTime);
         } else {
-          // All sets completed, stop the timer
-          setIsActive(false);
+          // Check if it's the last set and the last work period
+          if (currentSet === sets && !isResting) {
+            setTimeLeft("Good work!"); // Display "Good work!" instead of starting rest
+            setIsActive(false); // Stop the timer
+          } else if (currentSet === sets && isResting) {
+            setTimeLeft("Good work!"); // Display "Good work!" instead of starting rest
+            setIsActive(false); // Stop the timer
+          } else {
+            setIsResting(false);
+            setCurrentSet(currentSet + 1);
+            setTimeLeft(workTime);
+          }
         }
       }
     }
     return () => clearInterval(interval);
   }, [isActive, timeLeft, currentSet, isResting, sets, workTime, restTime, prepareTime]);
+  
+  
   
 
   const toggleTimer = () => {
