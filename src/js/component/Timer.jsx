@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import "../../styles/timer.css"; 
+import React, { useState, useEffect } from "react";
+import "../../styles/timer.css";
 
 const Timer = () => {
-  const [workTime, setWorkTime] = useState(20); // Initial work time in seconds
-  const [restTime, setRestTime] = useState(10); // Initial rest time in seconds
-  const [sets, setSets] = useState(1); // Initial number of sets
+  const [workTime, setWorkTime] = useState(20);
+  const [restTime, setRestTime] = useState(10);
+  const [sets, setSets] = useState(1);
   const [timeLeft, setTimeLeft] = useState(workTime);
   const [isActive, setIsActive] = useState(false);
   const [currentSet, setCurrentSet] = useState(1);
@@ -14,27 +14,27 @@ const Timer = () => {
     let interval;
     if (isActive && timeLeft > 0) {
       interval = setInterval(() => {
-        setTimeLeft(timeLeft => timeLeft - 1);
+        setTimeLeft(timeLeft - 1);
       }, 1000);
-    } else if (timeLeft === 0) {
+    } else if (timeLeft === 0 && isActive) {
       if (!isResting) {
-        // If not currently resting, switch to rest time
+        // Switch to rest time if not currently resting
         setIsResting(true);
         setTimeLeft(restTime);
       } else {
-        // If currently resting, switch to work time
-        setIsResting(false);
-        setCurrentSet(currentSet => currentSet + 1);
+        // Switch to work time if currently resting
         if (currentSet < sets) {
+          setIsResting(false);
+          setCurrentSet(currentSet + 1);
           setTimeLeft(workTime);
         } else {
-          // All sets completed, reset the timer
-          resetTimer();
+          // All sets completed, stop the timer
+          setIsActive(false);
         }
       }
     }
     return () => clearInterval(interval);
-  }, [isActive, timeLeft, restTime, workTime, sets, isResting, currentSet]);
+  }, [isActive, timeLeft, currentSet, isResting, sets, workTime, restTime]);
 
   const toggleTimer = () => {
     setIsActive(!isActive);
@@ -51,17 +51,19 @@ const Timer = () => {
     <div className="container mt-5">
       <div className="row justify-content-center">
         <div className="col-12 col-md-8 text-center">
-          <h1 className="display-1" style={{ fontSize: "6rem" }}>{timeLeft}</h1>
+          <div className="countdown-circle">
+            <h1 className="display-1">{timeLeft}</h1>
+          </div>
         </div>
       </div>
       <div className="row justify-content-center">
         <div className="col-12 col-md-8">
           <div className="row mb-3">
             <div className="col text-center">
-              <div className="d-flex align-items-center justify-content-center">
+              <div className="input-container">
                 <input
                   type="number"
-                  className="form-control"
+                  className="form-control input-small"
                   placeholder="Work Time (seconds)"
                   value={workTime}
                   onChange={(e) => setWorkTime(parseInt(e.target.value))}
@@ -70,10 +72,10 @@ const Timer = () => {
               <span>Work</span>
             </div>
             <div className="col text-center">
-              <div className="d-flex align-items-center justify-content-center">
+              <div className="input-container">
                 <input
                   type="number"
-                  className="form-control"
+                  className="form-control input-small"
                   placeholder="Rest Time (seconds)"
                   value={restTime}
                   onChange={(e) => setRestTime(parseInt(e.target.value))}
@@ -82,10 +84,10 @@ const Timer = () => {
               <span>Rest</span>
             </div>
             <div className="col text-center">
-              <div className="d-flex align-items-center justify-content-center">
+              <div className="input-container">
                 <input
                   type="number"
-                  className="form-control"
+                  className="form-control input-small"
                   placeholder="Sets"
                   value={sets}
                   onChange={(e) => setSets(parseInt(e.target.value))}
@@ -97,10 +99,10 @@ const Timer = () => {
           <div className="row">
             <div className="col-6 col-md-4 d-flex justify-content-center mt-2">
               <button className="btn btn-dark btn-block" onClick={toggleTimer}>
-                {isActive ? 'Pause' : 'Start'}
+                {isActive ? "Pause" : "Start"}
               </button>
             </div>
-            <div className="col-6 col-md-4 mt-2">
+            <div className="col-6 col-md-4 d-flex justify-content-center mt-2">
               <button className="btn btn-dark btn-block" onClick={resetTimer}>
                 Reset
               </button>

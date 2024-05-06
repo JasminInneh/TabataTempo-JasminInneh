@@ -1,3 +1,26 @@
 .timer button {
-  padding: 0.75rem 1.5rem; 
+  padding: 0.75rem 1.5rem;
 }
+
+.input-small {
+  width: 50%; /* Decrease the width to 50% of the parent */
+  margin: 0 auto; /* This centers the input field */
+}
+
+.countdown-circle {
+  width: 200px; 
+  height: 200px; 
+  background-color: #f0f0f0; 
+  border-radius: 50%; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto; /* Center the circle horizontally */
+  margin-bottom: 2rem;
+}
+
+.countdown-circle h1 {
+  font-size: 6rem;
+  margin: 0; 
+}
+
