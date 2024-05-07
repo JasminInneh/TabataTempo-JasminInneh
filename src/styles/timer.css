@@ -22,11 +22,12 @@ body {
   justify-content: center;
   margin: 0 auto; /* Center the circle horizontally */
   margin-bottom: 2rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .countdown-circle h1 {
   font-size: 6rem;
   margin: 0; 
 }
+
 

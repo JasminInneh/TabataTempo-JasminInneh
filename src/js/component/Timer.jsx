@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/timer.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDumbbell, faBottleWater, faRotateRight, faPersonWalking } from "@fortawesome/free-solid-svg-icons";
 
 const Timer = () => {
   const [prepareTime, setPrepareTime] = useState(5);
@@ -45,10 +47,16 @@ const Timer = () => {
       }
     }
     return () => clearInterval(interval);
-  }, [isActive, timeLeft, currentSet, isResting, sets, workTime, restTime, prepareTime]);
-  
-  
-  
+  }, [
+    isActive,
+    timeLeft,
+    currentSet,
+    isResting,
+    sets,
+    workTime,
+    restTime,
+    prepareTime,
+  ]);
 
   const toggleTimer = () => {
     setIsActive(!isActive);
@@ -82,7 +90,9 @@ const Timer = () => {
                 onChange={(e) => setPrepareTime(parseInt(e.target.value))}
               />
             </div>
-            <span>Prepare</span>
+            <span>
+            <FontAwesomeIcon icon={faPersonWalking} />
+              Prepare</span>
           </div>
           <div className="col text-center align-items-center mb-3">
             <div className="input-container">
@@ -94,7 +104,10 @@ const Timer = () => {
                 onChange={(e) => setWorkTime(parseInt(e.target.value))}
               />
             </div>
-            <span>Work</span>
+            <span>
+              <FontAwesomeIcon icon={faDumbbell} />
+              Work
+            </span>
           </div>
           <div className="col text-center align-items-center mb-3">
             <div className="input-container">
@@ -106,7 +119,10 @@ const Timer = () => {
                 onChange={(e) => setRestTime(parseInt(e.target.value))}
               />
             </div>
-            <span>Rest</span>
+            <span>
+            <FontAwesomeIcon icon={faBottleWater} />
+
+              Rest</span>
           </div>
           <div className="col text-center align-items-center mb-3">
             <div className="input-container">
@@ -118,9 +134,11 @@ const Timer = () => {
                 onChange={(e) => setSets(parseInt(e.target.value))}
               />
             </div>
-            <span>Sets</span>
+            <span>
+            <FontAwesomeIcon icon={faRotateRight} />
+              Sets</span>
           </div>
-          <div className="row">
+          <div className="row mb-2">
             <div className="col-6 col-md-4 d-flex justify-content-center mt-2">
               <button className="btn btn-dark btn-block" onClick={toggleTimer}>
                 {isActive ? "Pause" : "Start"}
