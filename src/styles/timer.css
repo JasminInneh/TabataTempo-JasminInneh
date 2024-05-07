@@ -20,13 +20,15 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 3px solid black; /* Add black border */
   margin: 0 auto; /* Center the circle horizontally */
   margin-bottom: 2rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .countdown-circle h1 {
   font-size: 6rem;
   margin: 0; 
 }
+
 
