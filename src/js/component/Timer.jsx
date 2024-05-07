@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/timer.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDumbbell, faBottleWater, faRotateRight, faPersonWalking } from "@fortawesome/free-solid-svg-icons";
+import {
+  faDumbbell,
+  faBottleWater,
+  faRotateRight,
+  faPersonWalking,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Timer = () => {
   const [prepareTime, setPrepareTime] = useState(5);
@@ -12,6 +17,7 @@ const Timer = () => {
   const [isActive, setIsActive] = useState(false);
   const [currentSet, setCurrentSet] = useState(1);
   const [isResting, setIsResting] = useState(false);
+  const [showBegin, setShowBegin] = useState(false); // State to control "Begin!" display
 
   useEffect(() => {
     let interval;
@@ -22,22 +28,21 @@ const Timer = () => {
     } else if (timeLeft === 0 && isActive) {
       if (!isResting) {
         // Transition to work time after preparation time
-        setIsResting(true); // Set to resting state to control the next countdown
-        setTimeLeft(workTime); // Start work time countdown
+        setIsResting(true);
+        setShowBegin(false); // Hide "Begin!"
+        setTimeLeft(workTime);
       } else {
-        // Switch to rest time if currently resting
         if (currentSet < sets) {
           setIsResting(false);
           setCurrentSet(currentSet + 1);
           setTimeLeft(restTime);
         } else {
-          // Check if it's the last set and the last work period
           if (currentSet === sets && !isResting) {
-            setTimeLeft("Good work!"); // Display "Good work!" instead of starting rest
-            setIsActive(false); // Stop the timer
+            setTimeLeft("Good work!");
+            setIsActive(false);
           } else if (currentSet === sets && isResting) {
-            setTimeLeft("Good work!"); // Display "Good work!" instead of starting rest
-            setIsActive(false); // Stop the timer
+            setTimeLeft("Good work!");
+            setIsActive(false);
           } else {
             setIsResting(false);
             setCurrentSet(currentSet + 1);
@@ -45,6 +50,9 @@ const Timer = () => {
           }
         }
       }
+    } else if (timeLeft === 0 && !isActive && isResting) {
+      // Display "Begin!" after prep countdown ends
+      setShowBegin(true);
     }
     return () => clearInterval(interval);
   }, [
@@ -66,6 +74,7 @@ const Timer = () => {
     setIsActive(false);
     setCurrentSet(1);
     setIsResting(false);
+    setShowBegin(false); // Reset "Begin!" display
     setTimeLeft(prepareTime);
   };
 
@@ -74,7 +83,7 @@ const Timer = () => {
       <div className="row justify-content-center">
         <div className="col-12 col-md-8 text-center">
           <div className="countdown-circle">
-            <h1 className="display-1">{timeLeft}</h1>
+            <h1 className="display-1">{showBegin ? "Begin!" : timeLeft}</h1>
           </div>
         </div>
       </div>
@@ -91,8 +100,9 @@ const Timer = () => {
               />
             </div>
             <span>
-            <FontAwesomeIcon icon={faPersonWalking} />
-              Prepare</span>
+              <FontAwesomeIcon icon={faPersonWalking} />
+              Prepare
+            </span>
           </div>
           <div className="col text-center align-items-center mb-3">
             <div className="input-container">
@@ -120,9 +130,9 @@ const Timer = () => {
               />
             </div>
             <span>
-            <FontAwesomeIcon icon={faBottleWater} />
-
-              Rest</span>
+              <FontAwesomeIcon icon={faBottleWater} />
+              Rest
+            </span>
           </div>
           <div className="col text-center align-items-center mb-3">
             <div className="input-container">
@@ -135,8 +145,9 @@ const Timer = () => {
               />
             </div>
             <span>
-            <FontAwesomeIcon icon={faRotateRight} />
-              Sets</span>
+              <FontAwesomeIcon icon={faRotateRight} />
+              Sets
+            </span>
           </div>
           <div className="row mb-2">
             <div className="col-6 col-md-4 d-flex justify-content-center mt-2">
