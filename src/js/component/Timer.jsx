@@ -21,10 +21,9 @@ const Timer = () => {
   const [currentSet, setCurrentSet] = useState(1);
   const [isResting, setIsResting] = useState(false);
   const [showBegin, setShowBegin] = useState(false);
-  const [showRest, setShowRest] = useState(false); 
 
   const countdownAudioRef = useRef(new Audio(countdownAudio));
-  const refereeWhistleBlowRef = useRef(new Audio(refereeWhistleBlow));
+  const refereeWhistleBlowRef = useRef(new Audio(refereeWhistleBlow));  // Reference for the workout sound
 
   useEffect(() => {
     let interval;
@@ -41,30 +40,27 @@ const Timer = () => {
       countdownAudioRef.current.pause();
       countdownAudioRef.current.currentTime = 0;
       if (!isResting) {
-        refereeWhistleBlowRef.current.play();
+        refereeWhistleBlowRef.current.play();  // Play workout sound when workout starts
         setIsResting(true);
         setShowBegin(false);
         setTimeLeft(workTime);
       } else {
-        // Begin rest logic
-        refereeWhistleBlowRef.current.pause();
+        refereeWhistleBlowRef.current.pause();  // Ensure the workout sound stops when transitioning to rest
         refereeWhistleBlowRef.current.currentTime = 0;
         if (currentSet < sets) {
-          setShowRest(true); // Display "Rest" message
-          setTimeout(() => {
-            setShowRest(false); // Remove "Rest" message
-            setIsResting(false);
-            setCurrentSet(currentSet + 1);
-            setTimeLeft(restTime);
-          }, 1000); 
+          setIsResting(false);
+          setCurrentSet(currentSet + 1);
+          setTimeLeft(restTime);
         } else {
           setTimeLeft("Good work!");
           setIsActive(false);
         }
       }
+    } else if (timeLeft === 0 && !isActive && isResting) {
+      setShowBegin(true);
     }
     return () => clearInterval(interval);
-  }, [isActive, timeLeft, currentSet, isResting, sets, workTime, restTime]);
+  }, [isActive, timeLeft, currentSet, isResting, sets, workTime, restTime, prepareTime]);
 
   const toggleTimer = () => {
     setIsActive(!isActive);
@@ -75,18 +71,16 @@ const Timer = () => {
     setCurrentSet(1);
     setIsResting(false);
     setShowBegin(false);
-    setShowRest(false); // Reset the rest message display
     setTimeLeft(prepareTime);
-    refereeWhistleBlowRef.current.pause();
+    refereeWhistleBlowRef.current.pause();  // Stop workout sound on reset
     refereeWhistleBlowRef.current.currentTime = 0;
   };
-
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
         <div className="col-12 col-md-8 text-center">
           <div className="countdown-circle">
-            <h1 className="display-1">{showBegin ? "Begin!" : showRest ? "Rest" : timeLeft}</h1>
+            <h1 className="display-1">{showBegin ? "Begin!" : timeLeft}</h1>
           </div>
         </div>
       </div>
