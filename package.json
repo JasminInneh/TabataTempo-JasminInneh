@@ -2,7 +2,7 @@
 	"name": "react-hello",
 	"version": "1.0.1",
 	"engines": {
-		"node": "20.x"
+		"node": "20"
 	},
 	"description": "",
 	"main": "index.js",
