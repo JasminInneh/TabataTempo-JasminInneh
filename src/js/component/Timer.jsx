@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import countdownAudio from "../../../public/sounds/countdown.mp3"
+import refereeWhistleBlow from "../../../public/sounds/refereeWhistleBlow.mp3"
 
 const Timer = () => {
   const [prepareTime, setPrepareTime] = useState(5);
@@ -20,64 +21,50 @@ const Timer = () => {
   const [currentSet, setCurrentSet] = useState(1);
   const [isResting, setIsResting] = useState(false);
   const [showBegin, setShowBegin] = useState(false);
+  const [showRest, setShowRest] = useState(false); 
 
-  const audioRef = useRef(new Audio(countdownAudio));
+  const countdownAudioRef = useRef(new Audio(countdownAudio));
+  const refereeWhistleBlowRef = useRef(new Audio(refereeWhistleBlow));
 
   useEffect(() => {
     let interval;
     if (isActive && timeLeft > 0) {
       interval = setInterval(() => {
         setTimeLeft((prevTimeLeft) => {
-          // Check if timeLeft is 2 instead of 3 to start audio playback
           if (prevTimeLeft === 4) {
-            audioRef.current.play();
+            countdownAudioRef.current.play();
           }
           return prevTimeLeft - 1;
         });
       }, 1000);
     } else if (timeLeft === 0 && isActive) {
-      // Stop the audio when work time begins
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
+      countdownAudioRef.current.pause();
+      countdownAudioRef.current.currentTime = 0;
       if (!isResting) {
-        // Transition to work time after preparation time
+        refereeWhistleBlowRef.current.play();
         setIsResting(true);
-        setShowBegin(false); // Hide "Begin!"
+        setShowBegin(false);
         setTimeLeft(workTime);
       } else {
+        // Begin rest logic
+        refereeWhistleBlowRef.current.pause();
+        refereeWhistleBlowRef.current.currentTime = 0;
         if (currentSet < sets) {
-          setIsResting(false);
-          setCurrentSet(currentSet + 1);
-          setTimeLeft(restTime);
-        } else {
-          if (currentSet === sets && !isResting) {
-            setTimeLeft("Good work!");
-            setIsActive(false);
-          } else if (currentSet === sets && isResting) {
-            setTimeLeft("Good work!");
-            setIsActive(false);
-          } else {
+          setShowRest(true); // Display "Rest" message
+          setTimeout(() => {
+            setShowRest(false); // Remove "Rest" message
             setIsResting(false);
             setCurrentSet(currentSet + 1);
-            setTimeLeft(workTime);
-          }
+            setTimeLeft(restTime);
+          }, 1000); 
+        } else {
+          setTimeLeft("Good work!");
+          setIsActive(false);
         }
       }
-    } else if (timeLeft === 0 && !isActive && isResting) {
-      // Display "Begin!" after prep countdown ends
-      setShowBegin(true);
     }
     return () => clearInterval(interval);
-  }, [
-    isActive,
-    timeLeft,
-    currentSet,
-    isResting,
-    sets,
-    workTime,
-    restTime,
-    prepareTime,
-  ]);
+  }, [isActive, timeLeft, currentSet, isResting, sets, workTime, restTime]);
 
   const toggleTimer = () => {
     setIsActive(!isActive);
@@ -87,8 +74,11 @@ const Timer = () => {
     setIsActive(false);
     setCurrentSet(1);
     setIsResting(false);
-    setShowBegin(false); // Reset "Begin!" display
+    setShowBegin(false);
+    setShowRest(false); // Reset the rest message display
     setTimeLeft(prepareTime);
+    refereeWhistleBlowRef.current.pause();
+    refereeWhistleBlowRef.current.currentTime = 0;
   };
 
   return (
@@ -96,7 +86,7 @@ const Timer = () => {
       <div className="row justify-content-center">
         <div className="col-12 col-md-8 text-center">
           <div className="countdown-circle">
-            <h1 className="display-1">{showBegin ? "Begin!" : timeLeft}</h1>
+            <h1 className="display-1">{showBegin ? "Begin!" : showRest ? "Rest" : timeLeft}</h1>
           </div>
         </div>
       </div>
