@@ -8,7 +8,7 @@ import {
   faPersonWalking,
 } from "@fortawesome/free-solid-svg-icons";
 
-import countdownAudio from "../../../public/sounds/countdown.mp3";
+import countdown from "../../../public/sounds/countdown.mp3";
 import refereeWhistleBlow from "../../../public/sounds/refereeWhistleBlow.mp3";
 
 
@@ -24,7 +24,7 @@ const Timer = () => {
   const [isResting, setIsResting] = useState(false);
   const [showBegin, setShowBegin] = useState(false);
 
-  const countdownAudioRef = useRef(new Audio(countdownAudio));
+  const countdownRef = useRef(new Audio(countdown));
   const refereeWhistleBlowRef = useRef(new Audio(refereeWhistleBlow));  // Reference for the workout sound
 
   useEffect(() => {
@@ -33,14 +33,14 @@ const Timer = () => {
       interval = setInterval(() => {
         setTimeLeft((prevTimeLeft) => {
           if (prevTimeLeft === 4) {
-            countdownAudioRef.current.play();
+            countdownRef.current.play();
           }
           return prevTimeLeft - 1;
         });
       }, 1000);
     } else if (timeLeft === 0 && isActive) {
-      countdownAudioRef.current.pause();
-      countdownAudioRef.current.currentTime = 0;
+      countdownRef.current.pause();
+      countdownRef.current.currentTime = 0;
       if (!isResting) {
         refereeWhistleBlowRef.current.play();  // Play workout sound when workout starts
         setIsResting(true);
