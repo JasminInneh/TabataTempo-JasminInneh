@@ -1,7 +1,3 @@
-"engines": {
-	"node": "20.x"
-  }
-
 {
     "name": "react-hello",
     "version": "1.0.1",
