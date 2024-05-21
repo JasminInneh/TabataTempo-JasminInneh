@@ -8,8 +8,8 @@ import {
   faPersonWalking,
 } from "@fortawesome/free-solid-svg-icons";
 
-import countdown from "../../../public/sounds/countdown.mp3";
-import refereeWhistleBlow from "../../../public/sounds/refereeWhistleBlow.mp3";
+import countdown from "../../sounds/countdown.mp3";
+import refereeWhistleBlow from "../../sounds/refereeWhistleBlow.mp3";
 
 
 

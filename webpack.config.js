@@ -40,14 +40,14 @@ module.exports = {
             loader: "css-loader", // translates CSS into CommonJS
           },
         ],
-      }, //css only files
+      }, // css only files
       {
         test: /\.(png|svg|jpg|gif)$/,
         use: {
           loader: "file-loader",
           options: { name: "[name].[ext]" },
         },
-      }, //for images
+      }, // for images
       {
         test: /\.(mp3)$/,
         use: [
@@ -61,11 +61,11 @@ module.exports = {
             },
           },
         ],
-      }, //for MP3 files
+      }, // for MP3 files
       {
         test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,
         use: ["file-loader"],
-      }, //for fonts
+      }, // for fonts
     ],
   },
   resolve: {
