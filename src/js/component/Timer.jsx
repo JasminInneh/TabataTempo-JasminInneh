@@ -155,7 +155,7 @@ const Timer = () => {
               Sets
             </span>
           </div>
-          <div className="row mb-2">
+          <div className="row mb-2 btn-container">
             <div className="col-6 col-md-4 d-flex justify-content-center mt-2">
               <button className="btn btn-dark btn-block" onClick={toggleTimer}>
                 {isActive ? "Pause" : "Start"}

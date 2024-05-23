@@ -8,20 +8,20 @@ body {
 }
 
 .input-small {
-  width: 50%; 
-  margin: 0 auto; 
+  width: 50%;
+  margin: 0 auto;
 }
 
 .countdown-circle {
   width: 12.5rem;
-  height: 12.5rem; 
+  height: 12.5rem;
   background-color: #f0f0f0;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 0.1875rem solid black;
-  margin: 0 auto; 
+  margin: 0 auto;
   margin-bottom: 2rem;
   margin-top: 1rem;
 }
@@ -29,4 +29,16 @@ body {
 .countdown-circle h1 {
   font-size: 3rem;
   margin: 0;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem; 
+}
+
+@media (min-width: 768px) {
+  .btn-container {
+    justify-content: center; 
+  }
 }
