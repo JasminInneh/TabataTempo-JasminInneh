@@ -11,8 +11,6 @@ import {
 import countdown from "../../sounds/countdown.mp3";
 import refereeWhistleBlow from "../../sounds/refereeWhistleBlow.mp3";
 
-
-
 const Timer = () => {
   const [prepareTime, setPrepareTime] = useState(5);
   const [workTime, setWorkTime] = useState(20);
@@ -23,9 +21,10 @@ const Timer = () => {
   const [currentSet, setCurrentSet] = useState(1);
   const [isResting, setIsResting] = useState(false);
   const [showBegin, setShowBegin] = useState(false);
+  const [showGetSweaty, setShowGetSweaty] = useState(false);
 
   const countdownRef = useRef(new Audio(countdown));
-  const refereeWhistleBlowRef = useRef(new Audio(refereeWhistleBlow));  // Reference for the workout sound
+  const refereeWhistleBlowRef = useRef(new Audio(refereeWhistleBlow));
 
   useEffect(() => {
     let interval;
@@ -41,13 +40,17 @@ const Timer = () => {
     } else if (timeLeft === 0 && isActive) {
       countdownRef.current.pause();
       countdownRef.current.currentTime = 0;
-      if (!isResting) {
-        refereeWhistleBlowRef.current.play();  // Play workout sound when workout starts
+      if (!isResting && !showGetSweaty) {
+        setShowGetSweaty(true);
+        setTimeLeft(1); 
+      } else if (showGetSweaty) {
+        setShowGetSweaty(false);
+        refereeWhistleBlowRef.current.play();
         setIsResting(true);
         setShowBegin(false);
         setTimeLeft(workTime);
       } else {
-        refereeWhistleBlowRef.current.pause();  // Ensure the workout sound stops when transitioning to rest
+        refereeWhistleBlowRef.current.pause();
         refereeWhistleBlowRef.current.currentTime = 0;
         if (currentSet < sets) {
           setIsResting(false);
@@ -62,10 +65,16 @@ const Timer = () => {
       setShowBegin(true);
     }
     return () => clearInterval(interval);
-  }, [isActive, timeLeft, currentSet, isResting, sets, workTime, restTime, prepareTime]);
+  }, [isActive, timeLeft, currentSet, isResting, sets, workTime, restTime, prepareTime, showGetSweaty]);
 
   const toggleTimer = () => {
     setIsActive(!isActive);
+    if (isActive) {
+      countdownRef.current.pause();
+      countdownRef.current.currentTime = 0;
+      refereeWhistleBlowRef.current.pause();
+      refereeWhistleBlowRef.current.currentTime = 0;
+    }
   };
 
   const resetTimer = () => {
@@ -73,16 +82,20 @@ const Timer = () => {
     setCurrentSet(1);
     setIsResting(false);
     setShowBegin(false);
+    setShowGetSweaty(false);
     setTimeLeft(prepareTime);
-    refereeWhistleBlowRef.current.pause();  // Stop workout sound on reset
+    countdownRef.current.pause();
+    countdownRef.current.currentTime = 0;
+    refereeWhistleBlowRef.current.pause();
     refereeWhistleBlowRef.current.currentTime = 0;
   };
+
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
         <div className="col-12 col-md-8 text-center">
           <div className="countdown-circle">
-            <h1 className="display-1">{showBegin ? "Begin!" : timeLeft}</h1>
+            <h1 className="display-1">{showBegin ? "Begin!" : showGetSweaty ? "Get Sweaty!" : timeLeft}</h1>
           </div>
         </div>
       </div>
@@ -148,7 +161,7 @@ const Timer = () => {
               Sets
             </span>
           </div>
-          <div className="row mb-2">
+          <div className="row mb-2 btn-container">
             <div className="col-6 col-md-4 d-flex justify-content-center mt-2">
               <button className="btn btn-dark btn-block" onClick={toggleTimer}>
                 {isActive ? "Pause" : "Start"}
