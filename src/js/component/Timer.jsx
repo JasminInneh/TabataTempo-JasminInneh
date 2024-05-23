@@ -9,9 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import countdown from "../../sounds/countdown.mp3";
-import refereeWhistleBlow from "../../sounds/refereeWhistleBlow.mp3"
-
-
+import refereeWhistleBlow from "../../sounds/refereeWhistleBlow.mp3";
 
 const Timer = () => {
   const [prepareTime, setPrepareTime] = useState(5);
@@ -25,7 +23,7 @@ const Timer = () => {
   const [showBegin, setShowBegin] = useState(false);
 
   const countdownRef = useRef(new Audio(countdown));
-  const refereeWhistleBlowRef = useRef(new Audio(refereeWhistleBlow));  // Reference for the workout sound
+  const refereeWhistleBlowRef = useRef(new Audio(refereeWhistleBlow));
 
   useEffect(() => {
     let interval;
@@ -42,12 +40,12 @@ const Timer = () => {
       countdownRef.current.pause();
       countdownRef.current.currentTime = 0;
       if (!isResting) {
-        refereeWhistleBlowRef.current.play();  // Play workout sound when workout starts
+        refereeWhistleBlowRef.current.play();
         setIsResting(true);
         setShowBegin(false);
         setTimeLeft(workTime);
       } else {
-        refereeWhistleBlowRef.current.pause();  // Ensure the workout sound stops when transitioning to rest
+        refereeWhistleBlowRef.current.pause();
         refereeWhistleBlowRef.current.currentTime = 0;
         if (currentSet < sets) {
           setIsResting(false);
@@ -66,6 +64,12 @@ const Timer = () => {
 
   const toggleTimer = () => {
     setIsActive(!isActive);
+    if (isActive) {
+      countdownRef.current.pause();
+      countdownRef.current.currentTime = 0;
+      refereeWhistleBlowRef.current.pause();
+      refereeWhistleBlowRef.current.currentTime = 0;
+    }
   };
 
   const resetTimer = () => {
@@ -74,9 +78,12 @@ const Timer = () => {
     setIsResting(false);
     setShowBegin(false);
     setTimeLeft(prepareTime);
-    refereeWhistleBlowRef.current.pause();  // Stop workout sound on reset
+    countdownRef.current.pause();
+    countdownRef.current.currentTime = 0;
+    refereeWhistleBlowRef.current.pause();
     refereeWhistleBlowRef.current.currentTime = 0;
   };
+
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
@@ -167,3 +174,4 @@ const Timer = () => {
 };
 
 export default Timer;
+
