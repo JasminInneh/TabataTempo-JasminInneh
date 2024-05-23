@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import countdown from "../../sounds/countdown.mp3";
-import refereeWhistleBlow from "../../sounds/refereeWhistleBlow.mp3";
+import refereeWhistleBlow from "../../sounds/refereeWhistleBlow.mp3"
 
 
 
