@@ -21,6 +21,7 @@ const Timer = () => {
   const [currentSet, setCurrentSet] = useState(1);
   const [isResting, setIsResting] = useState(false);
   const [showBegin, setShowBegin] = useState(false);
+  const [showGetSweaty, setShowGetSweaty] = useState(false);
 
   const countdownRef = useRef(new Audio(countdown));
   const refereeWhistleBlowRef = useRef(new Audio(refereeWhistleBlow));
@@ -39,7 +40,11 @@ const Timer = () => {
     } else if (timeLeft === 0 && isActive) {
       countdownRef.current.pause();
       countdownRef.current.currentTime = 0;
-      if (!isResting) {
+      if (!isResting && !showGetSweaty) {
+        setShowGetSweaty(true);
+        setTimeLeft(1); 
+      } else if (showGetSweaty) {
+        setShowGetSweaty(false);
         refereeWhistleBlowRef.current.play();
         setIsResting(true);
         setShowBegin(false);
@@ -60,7 +65,7 @@ const Timer = () => {
       setShowBegin(true);
     }
     return () => clearInterval(interval);
-  }, [isActive, timeLeft, currentSet, isResting, sets, workTime, restTime, prepareTime]);
+  }, [isActive, timeLeft, currentSet, isResting, sets, workTime, restTime, prepareTime, showGetSweaty]);
 
   const toggleTimer = () => {
     setIsActive(!isActive);
@@ -77,6 +82,7 @@ const Timer = () => {
     setCurrentSet(1);
     setIsResting(false);
     setShowBegin(false);
+    setShowGetSweaty(false);
     setTimeLeft(prepareTime);
     countdownRef.current.pause();
     countdownRef.current.currentTime = 0;
@@ -89,7 +95,7 @@ const Timer = () => {
       <div className="row justify-content-center">
         <div className="col-12 col-md-8 text-center">
           <div className="countdown-circle">
-            <h1 className="display-1">{showBegin ? "Begin!" : timeLeft}</h1>
+            <h1 className="display-1">{showBegin ? "Begin!" : showGetSweaty ? "Get Sweaty!" : timeLeft}</h1>
           </div>
         </div>
       </div>
@@ -174,4 +180,3 @@ const Timer = () => {
 };
 
 export default Timer;
-
