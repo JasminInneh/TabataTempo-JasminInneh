@@ -1,6 +1,7 @@
 body {
   font-family: "Montserrat", sans-serif;
   font-weight: 500;
+  margin-bottom: 0.75rem;
 }
 
 .timer button {
@@ -24,11 +25,22 @@ body {
   margin: 0 auto;
   margin-bottom: 2rem;
   margin-top: 1rem;
+  position: relative;
 }
 
 .countdown-circle h1 {
   font-size: 3rem;
   margin: 0;
+}
+
+.countdown-circle p {
+  font-size: 1.5rem;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 20%;
+  width: 100%;
+  text-align: center;
 }
 
 .btn-container {
