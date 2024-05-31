@@ -53,8 +53,14 @@ const Timer = () => {
       } else if (!isResting) {
         refereeWhistleBlowRef.current.pause();
         refereeWhistleBlowRef.current.currentTime = 0;
-        setIsResting(true);
-        setTimeLeft(restTime);
+        if (currentSet < sets) {
+          setIsResting(true);
+          setTimeLeft(restTime);
+        } else {
+          setTimeLeft("Good work!");
+          setIsActive(false);
+          setIsFinished(true);
+        }
       } else {
         if (currentSet < sets) {
           setIsResting(false);
@@ -208,4 +214,5 @@ const Timer = () => {
 };
 
 export default Timer;
+
 
