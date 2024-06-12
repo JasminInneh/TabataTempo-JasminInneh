@@ -1,4 +1,6 @@
-TabataTempo
-Description
-Demo Pictures
-Languages
+Description: Tabata Tempo is a sleek and user-friendly web application designed to enhance your workout sessions. Built using React, this timer allows users to set customizable intervals for preparation, work, and rest-periods, making it perfect for high-intensity interval training (HIIT). With integrated audio cues, including countdown beeps and whistle blows, its keeps you on track without needing to constantly check the screen. The interface, styled with CSS and enhanced with FontAwespme icons, ensures an intuitive and visually appealing experience. Ideal for fitness enthusiasts looking to streamline their routines with a reliable and customizable timer.
+
+
+Technologies: Crafted using modern web development technologies to provide a seamless and intuitive user experience. The core functionality is built React, ensuring a responsive and dynamic interface. For styling, CSS was utilized to create a visually appealing and user-friendly design. FontAwesome icons enhance the interface with clear and recognizable visuals. Audio cues, including countdown beeps and whistle blows, are integrated using the HTML5 Audio API. This combination of technologies ensures that Tabata Tempo is both powerful and easy to use, perfect for your next workout session.
+![IMG_1595](https://github.com/JasminInneh/TabataTempo-JasminInneh/assets/110208655/8aad5246-3142-43f9-8234-4464bee57184)
+
